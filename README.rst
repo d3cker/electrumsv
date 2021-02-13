@@ -263,7 +263,7 @@ See `contrib/build-wine/`.
 ElectrumSV Qt in Docker on Linux
 ================================
 
-It is possible to use Docker for running the wallet gui. 
+It is possible to use Docker for running the wallet gui.
 Minimum required Docker version is 18.03.0-ce.
 
 Build local image
@@ -281,7 +281,7 @@ created for user root. Dont use `UID=0`!
 Run the container for the first time
 ------------------------------------
 
-Once the image is built the following commands are needed to run a container for the first time.
+Once the image is built the following commands are needed to run the container for the first time.
 
 Allow local connections to X server::
 
@@ -291,20 +291,26 @@ Create home for ElectrumSV::
 
     $ mkdir ~/.electrum-sv
 
-Start the container and leave it running in the background::
+Start the container in a console::
 
     $ docker run -d -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v ~/.electrum-sv:/wallet/.electrum-sv/ --name electrumsv electrumsv
 
 Note: Remember to export volume for ElectrumSV home directory (~/.electrum-sv) or your wallet will be 
 gone once the container is removed. When image is built with `UID=` argument, wallet local home 
 folder must be present on the host before starting a container. Otherwise docker will create it and 
-set it's ownership to root:root which will prevent ElectrumSV from starting up.
+set it's ownership to root:root which will prevent ElectrumSV from starting up. Wallet may be put into
+background by replacing argument "-d" with "-ti".
 
-Start the container
--------------------
+Start the container agin
+------------------------
 
 After exiting the wallet or rebooting the host, run the following command to start ElectrumSV again::
 
     $ docker start electrumsv
 
 Note: It may be necessary to execute `xhost local:` after rebooting the host.
+
+Hardware wallets
+----------------
+
+Support for hardware wallets has not been tested with Docker.
