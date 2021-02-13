@@ -23,7 +23,7 @@ stages:
     - task: Docker@2
       displayName: Build an image
       inputs:
-        command: docker build -f contrib/docker/Dockerfile -t electrums --build-arg UID=1000 .
+        command: build -f contrib/docker/Dockerfile -t electrums --build-arg UID=1000 .
         dockerfile: 'Dockerfile'
         tags: |
           $(tag)
