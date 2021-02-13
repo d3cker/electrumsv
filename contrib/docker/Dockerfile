@@ -16,6 +16,8 @@ RUN if [ ${UID} ]; then mkdir /wallet/electrumsv;\
 
 ADD . /wallet/electrumsv
 
+RUN ls -l  && ls -l /wallet/electrumsv
+
 ENV PATH=${PATH}:/wallet/.local/bin:/root/.local/bin
 
 RUN pip3 install -U pysqlite3-binary\
