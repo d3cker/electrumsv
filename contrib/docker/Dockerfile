@@ -1,10 +1,12 @@
 FROM python:3.8
 
+ARG UID=${UID}
+
 RUN apt-get update && apt-get -y upgrade\
     && apt-get install -y python3-pyqt5\
-    && adduser --home /wallet --uid 1000 wallet --gecos "" --disabled-password
+    && adduser --home /wallet --uid ${UID} --gecos "" --disabled-password wallet
 
-USER 1000
+USER ${UID}
 
 RUN mkdir /wallet/electrumsv
 

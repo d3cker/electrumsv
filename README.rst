@@ -268,30 +268,40 @@ It is possible to use Docker for running the wallet. Minimum required version is
 Build local image
 -----------------
 
-Build command must be executed in repository root::
+Build must be executed in repository root folder. The following command will build
+image for currently logged in user::
 
-    docker build -f contrib/docker/Dockerfile .  -t electrumsv
+    docker build -f contrib/docker/Dockerfile . -t electrumsv --build-arg UID=${UID}
 
-Run the image
--------------
+Note: $UID environment variable must be present and contain "id" of current user.
+Alternatively `UID=` may be set manually.
 
-Once the image is built the following commands are needed to run it for the first time.
+Run the container for the first time
+------------------------------------
 
-Allow connections to X server::
+Once the image is built the following commands are needed to run container for the first time.
 
-    xhost local:root
+Allow local connections to X server::
 
-Start the image and run it in the background::
+    xhost local:
 
-    docker run -d -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /localpath/for/electrumsv/homedir:/wallet/.electrum-sv/ --name electrumsv electrumsv
+Create home for ElectrumSV::
 
-Note: Remember to export path for ElectrumSV home directory. Alternatively Docker volume may be defined. Without that your wallet will gone once the image is removed.
+    mkdir ~/.electrum-sv
 
-Start the image
----------------
+Start the container and leave it running in the background::
 
-After exitting the wallet or rebooting the host run the following command to start ElectrumSV again::
+    docker run -d -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v ~/.electrum-sv:/wallet/.electrum-sv/ --name electrumsv electrumsv
+
+Note: Remember to export volume for ElectrumSV home directory or your wallet will be gone once the container is removed.
+Wallet local home folder must be present on container start because if it is missing then docker will create it
+and set ownership to root:root.
+
+Start the container
+-------------------
+
+After exiting the wallet or rebooting the host run the following command to start ElectrumSV again::
 
     docker start electrumsv
 
-Note: It will be necessary to execute `xhost local:root` after rebooting the host.
+Note: It may be necessary to execute `xhost local:` after rebooting the host.
