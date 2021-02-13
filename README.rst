@@ -260,6 +260,7 @@ Windows
 
 See `contrib/build-wine/`.
 
+
 ElectrumSV Qt in Docker on Linux
 ================================
 
