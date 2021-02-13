@@ -358,6 +358,16 @@ stages:
       inputs:
         artifactName: 'all-build-files'
         targetPath: $(Build.ArtifactStagingDirectory)
+- stage: 'Docker build'
+  displayName: 'Build image'
+  jobs:
+  - job:
+    displayName: 'docker build command'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: docker build -f contrib/docker/Dockerfile . -t electrumsv --build-arg UID=1000
+      displayName: 'Build ElectrumSV image.'
 
   # This requires an extra github access token added. It's a lot of hassle and it's likely better
   # to just use the API and do it externally and manually.
