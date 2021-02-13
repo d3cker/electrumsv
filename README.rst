@@ -268,6 +268,8 @@ It is possible to use Docker for running the wallet. Minimum required version is
 Build local image
 -----------------
 
+Build command must be executed in repository root.
+
     docker build -f contrib/docker/Dockerfile .  -t electrumsv
 
 Run the image
@@ -275,7 +277,7 @@ Run the image
 
 Once the image is built the following commands are needed to run it for the first time.
 
-First allow connections to X server::
+Allow connections to X server::
 
     xhost local:root
 
