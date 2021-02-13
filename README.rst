@@ -260,48 +260,51 @@ Windows
 
 See `contrib/build-wine/`.
 
-Docker on Linux
-===============
+ElectrumSV Qt in Docker on Linux
+================================
 
-It is possible to use Docker for running the wallet. Minimum required version is 18.0.
+It is possible to use Docker for running the wallet gui. 
+Minimum required Docker version is 18.03.0-ce.
 
 Build local image
 -----------------
 
-Build must be executed in repository root folder. The following command will build
+Build must be executed in repository root folder. The following command will create
 image for currently logged in user::
 
-    docker build -f contrib/docker/Dockerfile . -t electrumsv --build-arg UID=${UID}
+    $ docker build -f contrib/docker/Dockerfile . -t electrumsv --build-arg UID=${UID}
 
 Note: $UID environment variable must be present and contain "id" of current user.
-Alternatively `UID=` may be set manually.
+Alternatively `UID=` may be set manually. If no argument is passed then image will be
+created for user root. Dont use `UID=0`!
 
 Run the container for the first time
 ------------------------------------
 
-Once the image is built the following commands are needed to run container for the first time.
+Once the image is built the following commands are needed to run a container for the first time.
 
 Allow local connections to X server::
 
-    xhost local:
+    $ xhost local:
 
 Create home for ElectrumSV::
 
-    mkdir ~/.electrum-sv
+    $ mkdir ~/.electrum-sv
 
 Start the container and leave it running in the background::
 
-    docker run -d -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v ~/.electrum-sv:/wallet/.electrum-sv/ --name electrumsv electrumsv
+    $ docker run -d -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v ~/.electrum-sv:/wallet/.electrum-sv/ --name electrumsv electrumsv
 
-Note: Remember to export volume for ElectrumSV home directory or your wallet will be gone once the container is removed.
-Wallet local home folder must be present on container start because if it is missing then docker will create it
-and set ownership to root:root.
+Note: Remember to export volume for ElectrumSV home directory (~/.electrum-sv) or your wallet will be 
+gone once the container is removed. When image is built with `UID=` argument, wallet local home 
+folder must be present on the host before starting a container. Otherwise docker will create it and 
+set it's ownership to root:root which will prevent ElectrumSV from starting up.
 
 Start the container
 -------------------
 
-After exiting the wallet or rebooting the host run the following command to start ElectrumSV again::
+After exiting the wallet or rebooting the host, run the following command to start ElectrumSV again::
 
-    docker start electrumsv
+    $ docker start electrumsv
 
 Note: It may be necessary to execute `xhost local:` after rebooting the host.
