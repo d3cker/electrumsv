@@ -294,7 +294,7 @@ Create home for ElectrumSV::
 
 Start the container in a console::
 
-    $ docker run -d -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v ~/.electrum-sv:/wallet/.electrum-sv/ --name electrumsv electrumsv
+    $ docker run -ti -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v ~/.electrum-sv:/wallet/.electrum-sv/ --name electrumsv electrumsv
 
 Note: Remember to export volume for ElectrumSV home directory (~/.electrum-sv) or your wallet will be 
 gone once the container is removed. When image is built with `UID=` argument, wallet local home 
