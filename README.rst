@@ -259,3 +259,37 @@ Windows
 -------
 
 See `contrib/build-wine/`.
+
+Docker on Linux
+===============
+
+It is possible to use Docker for running the wallet. Minimum required version is 18.0.
+
+Build local image
+-----------------
+
+    docker build -f contrib/docker/Dockerfile .  -t electrumsv
+
+Run the image
+-------------
+
+Once the image is built the following commands are needed to run it for the first time.
+
+First allow connections to X server::
+
+    xhost local:root
+
+Start the image and run it in the background::
+
+    docker run -d -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /localpath/for/electrumsv/homedir:/wallet/.electrum-sv/ --name electrumsv electrumsv
+
+Note: Remember to export path for ElectrumSV home directory. Alternatively Docker volume may be defined. Without that your wallet will gone once the image is removed.
+
+Start the image
+---------------
+
+After exitting the wallet or rebooting the host run the following command to start ElectrumSV again::
+
+    docker start electrumsv
+
+Note: It will be necessary to execute `xhost local:root` after rebooting the host.
